@@ -1,10 +1,10 @@
 <p style="color: green"><%= notice %></p>
-
-<%= render @book %>
-
-<div>
-  <%= link_to  I18n.t("edit_book"), edit_book_path(@book) %> |
-  <%= link_to I18n.t("back_books") , books_path %>
-
-  <%= button_to I18n.t("destroy_book"), @book, method: :delete %>
+<div class="show-item">
+  <%= render @book %>
 </div>
+  <nav class="page-nav">
+    <%= link_to  I18n.t("edit_book"), edit_book_path(@book) %> |
+    <%= link_to I18n.t("back_books") , books_path %>
+
+    <%= button_to I18n.t("destroy_book"), @book, method: :delete %>
+  </nav>
