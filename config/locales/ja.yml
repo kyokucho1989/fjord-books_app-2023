@@ -27,3 +27,11 @@
       create: '%{model}の登録'
       update: '%{model}の更新'
       submit: '%{model}の保存'
+
+  views:
+    pagination:
+      first: "&laquo; はじめ"
+      last: "さいご &raquo;"
+      previous: "&lsaquo; 前へ"
+      next: "次へ &rsaquo;"
+      truncate: "&hellip;"
