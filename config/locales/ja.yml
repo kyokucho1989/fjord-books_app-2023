@@ -1,0 +1,29 @@
+ ja:
+  activerecord:
+    models:
+      book: 本
+    attributes:
+      book:
+        memo: メモ
+        author: 著者
+        title: タイトル
+        picture: 写真
+
+  title: "タイトル"
+  memo: "メモ"
+  author: "著者"
+  picture: "写真"
+  detail_book: "この本の詳細"
+  new_book: "本の登録"
+  edit_book: "本の編集"
+  back_books: "一覧へ戻る"
+  destroy_book: "本の削除"
+  edit_page: "本の編集"
+  new_page: "本の登録"
+  index_page: "本の一覧"
+
+  helpers:
+    submit:
+      create: '%{model}の登録'
+      update: '%{model}の更新'
+      submit: '%{model}の保存'
