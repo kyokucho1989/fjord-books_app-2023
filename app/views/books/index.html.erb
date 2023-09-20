@@ -12,6 +12,9 @@
     </div>
   <% end %>
 </div>
+
+<%= paginate @books %>
+
 <nav class="page-nav">
   <%= link_to I18n.t("new_book"), new_book_path %>
 </nav>
