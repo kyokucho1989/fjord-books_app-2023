@@ -17,6 +17,12 @@
       <%= "【ログイン中のアドレス】#{current_user.email}" %>
       <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
     </li>
+    <li class="nav-item">
+      <%= link_to "ユーザーの一覧", users_path %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "本の一覧", books_path %>
+    </li>
     <% else %>
     <li class="nav-item">
       <%= link_to "新規登録", new_user_registration_path %>
