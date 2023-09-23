@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="show-item">
+  <h2>メールアドレス</h2>
+    <p><%= @user.email %></p>
+
+  <h2>住所</h2>
+    <p><%= @user.address %></p>
+
+  <h2>郵便番号</h2>
+    <p><%= @user.postal_code %></p>
+
+  <h2>自己紹介</h2>
+    <p><%= @user.self_introduce %></p>
+</div>
+
+<nav class="page-nav">
+<%= link_to t('views.common.back', name: i18n_pluralize(User.model_name.human.downcase)), users_path %>
+<%= link_to t('views.common.back', name: i18n_pluralize(Book.model_name.human.downcase)), books_path %>
+</nav>
