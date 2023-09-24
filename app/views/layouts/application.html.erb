@@ -11,32 +11,36 @@
   </head>
 
   <body class="<%= params[:action] %>">
-  <ul>
-  <% if user_signed_in? %>
-    <li class="nav-item">
-      <%= "【ログイン中のアドレス】#{current_user.email}" %>
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-    </li>
-    <li class="nav-item">
-    <%= link_to "登録情報の変更", edit_user_registration_path %>
-    </li>
-    <li class="nav-item">
-      <%= link_to "ユーザーの一覧", users_path %>
-    </li>
-    <li class="nav-item">
-      <%= link_to "本の一覧", books_path %>
-    </li>
-    <% else %>
-    <li class="nav-item">
-      <%= link_to "新規登録", new_user_registration_path %>
-    </li>
-    <li class="nav-item">
-      <%= link_to "ログイン", new_user_session_path %>
-    </li>
-    <% end %>
-  </ul>
+  <header>
+    <ul class="nav-ul">
+    <% if user_signed_in? %>
+      <li class="nav-item">
+        <%= link_to "本の一覧", books_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "ユーザーの一覧", users_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "登録情報の変更", edit_user_registration_path %>
+      </li>
+      <li class="nav-item">
+        <%= "#{current_user.email}" %>
+      </li>
+      <li class="nav-item">
+        <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+      </li>
+      <% else %>
+      <li class="nav-item">
+        <%= link_to "新規登録", new_user_registration_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "ログイン", new_user_session_path %>
+      </li>
+      <% end %>
+    </ul>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
+  </header>
     <%= yield %>
   </body>
 </html>

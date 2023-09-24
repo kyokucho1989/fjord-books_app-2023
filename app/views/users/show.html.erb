@@ -1,21 +1,13 @@
 <p style="color: green"><%= notice %></p>
 
 <div class="show-item">
-<% if current_user.id == @user.id %>
-<%= button_to "登録情報の変更", edit_user_registration_path, method: :get %>
-<% end %>
-
-  <h2>メールアドレス</h2>
-    <p><%= @user.email %></p>
-
-  <h2>住所</h2>
-    <p><%= @user.address %></p>
-
-  <h2>郵便番号</h2>
-    <p><%= @user.postal_code %></p>
-
-  <h2>自己紹介</h2>
-    <p><%= @user.self_introduce %></p>
+  <p><strong>メールアドレス: </strong><%= @user.email %></p>
+  <p><strong>住所: </strong><%= @user.address %></p>
+  <p><strong>郵便番号: </strong><%= @user.postal_code %></p>
+  <p><strong>自己紹介: </strong><%= @user.self_introduce %></p>
+  <% if current_user.id == @user.id %>
+    <%= button_to "登録情報の変更", edit_user_registration_path, method: :get %>
+  <% end %>
 </div>
 
 <nav class="page-nav">
