@@ -1,6 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
 <div class="show-item">
+<% if current_user.id == @user.id %>
+<%= button_to "登録情報の変更", edit_user_registration_path, method: :get %>
+<% end %>
+
   <h2>メールアドレス</h2>
     <p><%= @user.email %></p>
 
