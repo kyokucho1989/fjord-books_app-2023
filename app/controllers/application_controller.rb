@@ -13,7 +13,4 @@ class ApplicationController < ActionController::Base
     books_path
   end
 
-  def after_sign_out_path_for(_resource)
-    books_path
-  end
 end
