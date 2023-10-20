@@ -319,3 +319,16 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
   background-color: var(--global-primary-c-hover);
 }
+
+/****************
+Header
+****************/
+
+ul.nav-ul {
+  padding: 0px;
+}
+
+li.nav-item {
+  display: inline-block;
+  padding: 0px 48px 0px 0px;
+}
