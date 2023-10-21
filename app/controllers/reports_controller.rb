@@ -28,9 +28,12 @@ class ReportsController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit
+    redirect_to action: 'index' unless @report.user_id == current_user.id
+  end
 
   def update
+    redirect_to action: 'index' unless @report.user_id == current_user.id
     respond_to do |format|
       if @report.update(report_params)
         format.html { redirect_to report_url(@report), notice: t('controllers.common.notice_update', name: Report.model_name.human) }
@@ -43,6 +46,7 @@ class ReportsController < ApplicationController
   end
 
   def destroy
+    redirect_to action: 'index' unless @report.user_id == current_user.id
     @report.destroy
 
     respond_to do |format|
