@@ -11,14 +11,27 @@ class ReportsController < ApplicationController
 
   def edit; end
 
-  def update; end
+  def update
+    respond_to do |format|
+      if @report.update(report_params)
+        format.html { redirect_to report_url(@report), notice: t('controllers.common.notice_update', name: Report.model_name.human) }
+        format.json { render :show, status: :ok, location: @report }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @report.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def destroy; end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_report
     @report = Report.find(params[:id])
+  end
+
+  def report_params
+    params.require(:report).permit(:title, :content)
   end
 end
