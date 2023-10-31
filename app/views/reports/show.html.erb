@@ -4,6 +4,24 @@
   <%= render partial: 'report_detail', locals: { report: @report } %>
 </div>
 
+<h2><%= t('views.common.title_index', name: Comment.model_name.human) %></h2>
+
+<div id="comments" class="comment-items">
+  <% @comments.each do |comment| %>
+    <div class="comment-item">
+      <header class="comment-header">
+        <%= comment.user.name %>
+        <%= comment.created_at %>
+      </header>
+      <div class="comment-content">
+        <%= comment.content %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render "comments/form", report: @report %>
+
 <nav class="page-nav">
   <% if @report.user_id == current_user.id %>
     <%= link_to t('views.common.edit', name: Report.model_name.human.downcase), edit_report_path(@report) %> |

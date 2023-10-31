@@ -1,0 +1,8 @@
+<%= form_with(model: [@report, Comment.new] , html: { class: "comment-form" }) do |form| %>
+  <div>
+    <%= form.text_area :content %>
+  </div>
+  <div>
+    <%= form.submit(t('helpers.submit.comment')) %>
+  </div>
+<% end %>

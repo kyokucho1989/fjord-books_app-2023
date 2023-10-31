@@ -26,7 +26,9 @@ class ReportsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @comments = @report.comments.includes(:user)
+  end
 
   def edit
     redirect_to action: 'index' unless @report.user_id == current_user.id
