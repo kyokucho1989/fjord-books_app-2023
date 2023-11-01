@@ -4,6 +4,22 @@
   <%= render @book %>
 </div>
 
+<div id="comments" class="comment-items">
+  <% @comments.each do |comment| %>
+    <div class="comment-item">
+      <header class="comment-header">
+        <%= comment.user.name %>
+        <%= comment.created_at %>
+      </header>
+      <div class="comment-content">
+        <%= comment.content %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render "comments/form", post: @book %>
+
 <nav class="page-nav">
   <%= link_to t('views.common.edit', name: Book.model_name.human.downcase), edit_book_path(@book) %> |
   <%= link_to t('views.common.back', name: i18n_pluralize(Book.model_name.human.downcase)), books_path %>

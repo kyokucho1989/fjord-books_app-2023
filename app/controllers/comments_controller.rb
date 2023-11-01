@@ -4,13 +4,20 @@ class CommentsController < ApplicationController
   def new; end
 
   def create
-    @report = Report.find(params[:report_id])
-    @comment = @report.comments.build(comment_params)
+    if params[:report_id].present?
+      @report = Report.find(params[:report_id])
+      @comment = @report.comments.build(comment_params)
+    else
+      @book = Book.find(params[:book_id])
+      @comment = @book.comments.build(comment_params)
+    end
     @comment.user_id = current_user.id
-    if @comment.save
+    @comment.save
+
+    if params[:report_id].present?
       redirect_to report_url(@report)
     else
-      render :new
+      redirect_to book_url(@book)
     end
   end
 
