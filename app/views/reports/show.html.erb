@@ -11,7 +11,7 @@
     <div class="comment-item">
       <header class="comment-header">
         <%= comment.user.name %>
-        <%= comment.created_at %>
+        <%= l comment.created_at ,format: :short %>
       </header>
       <div class="comment-content">
         <%= comment.content %>
