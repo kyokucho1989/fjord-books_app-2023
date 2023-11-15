@@ -18,7 +18,8 @@ body {
   margin: 0;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
   outline: 0;
 }
 
@@ -27,7 +28,7 @@ a:visited {
   color: var(--global-primary-c);
 }
 
-a:hover ,
+a:hover,
 a:active {
   color: var(--global-primary-c-hover);
 }
@@ -78,7 +79,7 @@ input[type="radio"] {
 input,
 button,
 a {
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 /****************
@@ -97,10 +98,10 @@ Common
   --global-headding-lh: 1.5;
   --global-fz-md: 14px;
   --global-fz-sm: 12px;
-  --global-label-fz: .9em;
+  --global-label-fz: 0.9em;
   --global-lh: 1.8;
   /* primary */
-  --global-primary-c:#0088cc;
+  --global-primary-c: #0088cc;
   --global-primary-c-hover: #005580;
   /* secondary */
   --global-secondary-bgc: rgb(233, 233, 233);
@@ -136,7 +137,7 @@ h3 {
   border: solid var(--global-bw) var(--global-secondary-bgc-hover);
   border-radius: var(--global-br);
   height: 2em;
-  padding: 0 .75em;
+  padding: 0 0.75em;
 }
 
 .button_to button[type="submit"]:hover,
@@ -318,4 +319,43 @@ form input[type="submit"] {
 
 form input[type="submit"]:hover {
   background-color: var(--global-primary-c-hover);
+}
+
+/****************
+Comment
+****************/
+
+.comment-items {
+  gap: var(--global-block-gap);
+  grid-template-columns: repeat(auto-fill, 280px);
+  font-size: var(--global-fz-sm);
+  line-height: var(--global-lh);
+  margin-bottom: var(--nav-mt);
+}
+
+.comment-item {
+  max-width: var(--single-column-w);
+  border: solid var(--global-bw) var(--global-bc);
+  padding: 16px;
+  border-radius: var(--global-br);
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+}
+
+.comment-header {
+  display: flex;
+}
+
+.comment-content {
+  font-size: 1rem;
+}
+
+.comment-form {
+  border: solid var(--global-bw) var(--global-bc);
+  border-radius: var(--global-br);
+  font-size: 1rem;
+  padding: 16px;
+  margin-top: 48px;
+  font-size: 1rem;
 }
