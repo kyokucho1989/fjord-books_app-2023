@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -24,5 +26,9 @@ class ApplicationController < ActionController::Base
 
   def signed_in_root_path(_resource_or_scope)
     user_path(current_user)
+  end
+
+  def record_not_found
+    render plain: '404 Not Found', status: :not_found
   end
 end
