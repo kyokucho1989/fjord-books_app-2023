@@ -55,7 +55,7 @@ class ReportsController < ApplicationController
     end
 
     mention = Mention.where(mentioning_report_id: delete_mention_ids, mentioned_report_id:)
-    mention.delete if !mention.empty?
+    mention.delete_all if !mention.empty?
   end
 
   def mentioning_reports
