@@ -4,6 +4,17 @@
   <%= render @report %>
 </div>
 
+<% if !@report.mentioned_reports.empty? %>
+<h2>この日報に言及している日報</h2>
+  <ul>
+    <% @report.mentioned_reports.each do |report| %>
+      <li>
+      <%= link_to report.title , report %> <%= report.user.name %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= render 'shared/comments', commentable: @report %>
 
 <nav class="page-nav">
