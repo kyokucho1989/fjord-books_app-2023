@@ -20,4 +20,28 @@ class Report < ApplicationRecord
   def created_on
     created_at.to_date
   end
+
+  def self.update_mention(report)
+    mentioned_report_id = report.id
+    mention_ids = mentioning_reports(report)
+    create_mention_ids = mention_ids[:create_ids]
+    delete_mention_ids = mention_ids[:delete_ids]
+    create_mention_ids.each do |id|
+      mention = Mention.new(mentioning_report_id: id, mentioned_report_id:)
+      mention.save
+    end
+
+    mention = Mention.where(mentioning_report_id: delete_mention_ids, mentioned_report_id:)
+    mention.delete_all if !mention.empty?
+  end
+
+  def self.mentioning_reports(report)
+    mentioning_reports = report.content.scan(%r{localhost:3000/reports/(\d+)}).flatten
+    mentioning_reports.uniq!
+    mentioning_reports.map!(&:to_i)
+
+    create_reports_ids = mentioning_reports - report.mentioning_report_ids
+    delete_reports_ids = report.mentioning_report_ids - mentioning_reports
+    { create_ids: create_reports_ids, delete_ids: delete_reports_ids }
+  end
 end
