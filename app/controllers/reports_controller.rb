@@ -20,20 +20,23 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
+    has_no_validation_error, mention_errors = Report.save_or_update_with_transaction(@report)
 
-    if @report.save
-      Report.update_mention(@report)
+    if has_no_validation_error
       redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
     else
+      @report.errors.merge!(mention_errors)
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    if @report.update(report_params)
-      Report.update_mention(@report)
+    has_no_validation_error, mention_errors = Report.save_or_update_with_transaction(@report, report_params)
+
+    if has_no_validation_error
       redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
     else
+      @report.errors.merge!(mention_errors)
       render :edit, status: :unprocessable_entity
     end
   end

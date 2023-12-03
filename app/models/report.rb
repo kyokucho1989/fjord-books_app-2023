@@ -21,25 +21,45 @@ class Report < ApplicationRecord
     created_at.to_date
   end
 
+  def self.save_or_update_with_transaction(report, report_params = nil)
+    has_no_validation_error = true
+    has_no_mention_error = true
+    mention_errors = ActiveModel::Errors.new(self)
+    ActiveRecord::Base.transaction do
+      has_no_validation_error &= if report_params
+                                   report.update(report_params)
+                                 else
+                                   report.save
+                                 end
+
+      has_no_mention_error, mention_errors = Report.update_mention(report)
+      has_no_validation_error &= has_no_mention_error
+      raise ActiveRecord::Rollback if !has_no_validation_error
+    end
+    [has_no_validation_error, mention_errors]
+  end
+
   def self.update_mention(report)
+    has_no_mention_error = true
     mentioned_report_id = report.id
+    mention_errors = ActiveModel::Errors.new(self)
     mention_ids = mentioning_reports(report)
     create_mention_ids = mention_ids[:create_ids]
     delete_mention_ids = mention_ids[:delete_ids]
     create_mention_ids.each do |id|
       mention = Mention.new(mentioning_report_id: id, mentioned_report_id:)
-      mention.save
+      has_no_mention_error &= mention.save
+      mention_errors.merge!(mention.errors) if !mention.errors.empty?
     end
-
     mention = Mention.where(mentioning_report_id: delete_mention_ids, mentioned_report_id:)
     mention.delete_all if !mention.empty?
+    [has_no_mention_error, mention_errors]
   end
 
   def self.mentioning_reports(report)
     mentioning_reports = report.content.scan(%r{localhost:3000/reports/(\d+)}).flatten
     mentioning_reports.uniq!
     mentioning_reports.map!(&:to_i)
-
     create_reports_ids = mentioning_reports - report.mentioning_report_ids
     delete_reports_ids = report.mentioning_report_ids - mentioning_reports
     { create_ids: create_reports_ids, delete_ids: delete_reports_ids }
