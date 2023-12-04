@@ -33,13 +33,13 @@ class Report < ApplicationRecord
                                  end
       raise ActiveRecord::Rollback if !has_no_validation_error
 
-      has_no_mention_error, mention_errors = update_mention
+      has_no_mention_error, mention_errors = update_mentions
       has_no_validation_error &= has_no_mention_error
     end
     [has_no_validation_error, mention_errors]
   end
 
-  def update_mention
+  def update_mentions
     has_no_mention_error = true
     mentioned_report_id = id
     mention_errors = ActiveModel::Errors.new(self)
