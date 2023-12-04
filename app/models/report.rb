@@ -21,7 +21,7 @@ class Report < ApplicationRecord
     created_at.to_date
   end
 
-  def save_with_transaction(report_params = nil)
+  def save_with_mentions(report_params = nil)
     has_no_validation_error = true
     has_no_mention_error = true
     mention_errors = ActiveModel::Errors.new(self)
@@ -49,7 +49,7 @@ class Report < ApplicationRecord
     create_mention_ids.each do |id|
       mention = Mention.new(mentioning_report_id: id, mentioned_report_id:)
       has_no_mention_error &= mention.save
-      mention_errors.merge!(mention.errors) if mention.errors.exists?
+      mention_errors.merge!(mention.errors) if !mention.errors.empty?
     end
     mention = Mention.where(mentioning_report_id: delete_mention_ids, mentioned_report_id:)
     mention.delete_all if mention.exists?

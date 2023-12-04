@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
-    has_no_validation_error, mention_errors = @report.save_with_transaction
+    has_no_validation_error, mention_errors = @report.save_with_mentions
 
     if has_no_validation_error
       redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
@@ -31,7 +31,7 @@ class ReportsController < ApplicationController
   end
 
   def update
-    has_no_validation_error, mention_errors = @report.save_with_transaction(report_params)
+    has_no_validation_error, mention_errors = @report.save_with_mentions(report_params)
 
     if has_no_validation_error
       redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
