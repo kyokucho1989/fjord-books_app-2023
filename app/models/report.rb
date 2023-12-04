@@ -21,29 +21,29 @@ class Report < ApplicationRecord
     created_at.to_date
   end
 
-  def self.save_or_update_with_transaction(report, report_params = nil)
+  def save_with_transaction(report_params = nil)
     has_no_validation_error = true
     has_no_mention_error = true
     mention_errors = ActiveModel::Errors.new(self)
     ActiveRecord::Base.transaction do
       has_no_validation_error &= if report_params
-                                   report.update(report_params)
+                                   update(report_params)
                                  else
-                                   report.save
+                                   save
                                  end
       raise ActiveRecord::Rollback if !has_no_validation_error
 
-      has_no_mention_error, mention_errors = Report.update_mention(report)
+      has_no_mention_error, mention_errors = update_mention
       has_no_validation_error &= has_no_mention_error
     end
     [has_no_validation_error, mention_errors]
   end
 
-  def self.update_mention(report)
+  def update_mention
     has_no_mention_error = true
-    mentioned_report_id = report.id
+    mentioned_report_id = id
     mention_errors = ActiveModel::Errors.new(self)
-    mention_ids = mentioning_reports(report)
+    mention_ids = mentioning_reports
     create_mention_ids = mention_ids[:create_ids]
     delete_mention_ids = mention_ids[:delete_ids]
     create_mention_ids.each do |id|
@@ -56,12 +56,12 @@ class Report < ApplicationRecord
     [has_no_mention_error, mention_errors]
   end
 
-  def self.mentioning_reports(report)
-    mentioning_reports = report.content.scan(%r{localhost:3000/reports/(\d+)}).flatten
+  def mentioning_reports
+    mentioning_reports = content.scan(%r{localhost:3000/reports/(\d+)}).flatten
     mentioning_reports.uniq!
     mentioning_reports.map!(&:to_i)
-    create_reports_ids = mentioning_reports - report.mentioning_report_ids
-    delete_reports_ids = report.mentioning_report_ids - mentioning_reports
+    create_reports_ids = mentioning_reports - mentioning_report_ids
+    delete_reports_ids = mentioning_report_ids - mentioning_reports
     { create_ids: create_reports_ids, delete_ids: delete_reports_ids }
   end
 end
