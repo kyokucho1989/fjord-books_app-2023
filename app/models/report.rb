@@ -31,10 +31,10 @@ class Report < ApplicationRecord
                                  else
                                    report.save
                                  end
+      raise ActiveRecord::Rollback if !has_no_validation_error
 
       has_no_mention_error, mention_errors = Report.update_mention(report)
       has_no_validation_error &= has_no_mention_error
-      raise ActiveRecord::Rollback if !has_no_validation_error
     end
     [has_no_validation_error, mention_errors]
   end
