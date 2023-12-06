@@ -49,7 +49,7 @@ class Report < ApplicationRecord
     create_mention_ids.each do |id|
       mention = Mention.new(mentioning_report_id: id, mentioned_report_id:)
       has_no_mention_error &= mention.save
-      mention_errors.merge!(mention.errors) if !mention.errors.empty?
+      mention_errors.merge!(mention.errors) if mention.errors.any?
     end
     mention = Mention.where(mentioning_report_id: delete_mention_ids, mentioned_report_id:)
     mention.delete_all if mention.exists?
