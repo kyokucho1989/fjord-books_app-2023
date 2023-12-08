@@ -26,7 +26,4 @@ class ApplicationController < ActionController::Base
     user_path(current_user)
   end
 
-  def record_not_found
-    render plain: '404 Not Found', status: :not_found
-  end
 end
