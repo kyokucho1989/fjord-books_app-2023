@@ -15,3 +15,7 @@ alice:
 
 bob:
   email: bob@example.com
+
+carol:
+  email: carol@example.com
+  name: carol
