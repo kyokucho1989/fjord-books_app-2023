@@ -25,4 +25,5 @@ class ApplicationController < ActionController::Base
   def signed_in_root_path(_resource_or_scope)
     user_path(current_user)
   end
+
 end
