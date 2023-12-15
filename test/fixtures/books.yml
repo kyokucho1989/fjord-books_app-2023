@@ -4,8 +4,3 @@ one:
   title: MyString
   memo: MyText
   author: Author
-
-two:
-  title: MyString
-  memo: MyText
-  author: Author
