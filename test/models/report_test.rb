@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
-  test 'editable' do
+  test '#editable' do
     user1 = users(:alice)
     user2 = users(:bob)
     user1.reports.create!(title: 'title', content: 'hello')
@@ -11,14 +11,14 @@ class ReportTest < ActiveSupport::TestCase
     assert_not user1.reports.first.editable?(user2)
   end
 
-  test 'create_on' do
+  test '#create_on' do
     user1 = users(:alice)
     user1.reports.create!(title: 'title', content: 'hello')
     report1 = user1.reports.first
     assert_equal(report1.created_on, report1.created_at.to_date)
   end
 
-  test 'save_mention' do
+  test '#save_mention' do
     user1 = users(:alice)
     user2 = users(:bob)
     report1 = user1.reports.create!(title: '言及', content: 'hello')
