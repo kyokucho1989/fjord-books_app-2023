@@ -25,17 +25,21 @@ class ReportsTest < ApplicationSystemTestCase
     click_on '登録する'
 
     assert_text '日報が作成されました'
+    assert_text @report.title
+    assert_text @report.content
   end
 
   test 'should update Report' do
     visit report_url(@report)
     click_on 'この日報を編集'
 
-    fill_in 'report[title]', with: '内容'
+    fill_in 'report[title]', with: '新タイトル'
     fill_in 'report[content]', with: '修正した。'
     click_on '更新する'
 
     assert_text '日報が更新されました'
+    assert_text 'タイトル: 新タイトル'
+    assert_text '内容: 修正した。'
   end
 
   test 'should destroy Report' do
@@ -43,5 +47,7 @@ class ReportsTest < ApplicationSystemTestCase
     click_on 'この日報を削除', match: :first
 
     assert_text '日報が削除されました'
+    assert_no_text 'タイトル: 新タイトル'
+    assert_no_text '内容: 修正した。'
   end
 end

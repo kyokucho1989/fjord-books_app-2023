@@ -24,6 +24,9 @@ class BooksTest < ApplicationSystemTestCase
     click_on '登録する'
 
     assert_text '本が作成されました'
+    assert_text @book.title
+    assert_text @book.memo
+    assert_text @book.author
   end
 
   test 'should update Book' do
@@ -36,6 +39,9 @@ class BooksTest < ApplicationSystemTestCase
     click_on '更新する'
 
     assert_text '本が更新されました'
+    assert_text 'タイトル: 新しいタイトル'
+    assert_text 'メモ: 新しい内容'
+    assert_text '著者: 新しい著者'
   end
 
   test 'should destroy Book' do
@@ -43,5 +49,8 @@ class BooksTest < ApplicationSystemTestCase
     click_on 'この本を削除', match: :first
 
     assert_text '本が削除されました'
+    assert_no_text 'タイトル: 新しいタイトル'
+    assert_no_text 'メモ: 新しい内容'
+    assert_no_text '著者: 新しい著者'
   end
 end
