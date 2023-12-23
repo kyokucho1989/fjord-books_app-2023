@@ -21,10 +21,20 @@ class ReportTest < ActiveSupport::TestCase
   test '#save_mention' do
     user1 = users(:alice)
     user2 = users(:bob)
-    report1 = user1.reports.create!(title: '言及', content: 'hello')
-    content = "http://localhost:3000/reports/#{report1.id}"
-    report2 = user2.reports.create!(title: '言及', content:)
-    assert_includes(report2.mentioning_reports, report1)
-    assert_not_includes(report1.mentioning_reports, report2)
+    report1 = user1.reports.create!(title: '朝', content: 'good morning')
+    report2 = user2.reports.create!(title: '言及', content: "http://localhost:3000/reports/#{report1.id}")
+    report3 = user2.reports.create!(title: '言及2', content: "http://localhost:3000/reports/#{report1.id}")
+
+    assert_includes(report1.mentioned_reports, report2)
+    assert_includes(report1.mentioned_reports, report3)
+    assert_not_includes(report2.mentioned_reports, report1)
+
+    update_content = 'good bye'
+    report2.update(title: '言及の修正', content: update_content)
+    report4 = user2.reports.create!(title: '言及の追加', content: "http://localhost:3000/reports/#{report1.id}")
+
+    assert_includes(report1.mentioned_reports, report3)
+    assert_not_includes(report1.mentioned_reports, report2)
+    assert_includes(report1.mentioned_reports, report4)
   end
 end
