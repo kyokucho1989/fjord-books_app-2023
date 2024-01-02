@@ -4,44 +4,50 @@ require 'application_system_test_case'
 
 class ReportsTest < ApplicationSystemTestCase
   setup do
+    @user = users(:alice)
     @report = reports(:one)
+    visit new_user_session_url
+    fill_in 'user_email', with: @user.email
+    fill_in 'user_password', with: 'password'
+    click_on 'ログイン'
+
+    assert_text 'ログインしました'
   end
 
-  test 'visiting the index' do
+  test 'should create Report' do
     visit reports_url
-    assert_selector 'h1', text: 'Reports'
-  end
+    click_on '日報'
 
-  test 'should create report' do
-    visit reports_url
-    click_on 'New report'
+    click_on '日報の新規作成'
 
-    fill_in 'Content', with: @report.content
-    fill_in 'Title', with: @report.title
-    fill_in 'User', with: @report.user_id
-    click_on 'Create Report'
+    fill_in 'report[title]', with: @report.title
+    fill_in 'report[content]', with: @report.content
+    click_on '登録する'
 
-    assert_text 'Report was successfully created'
-    click_on 'Back'
+    assert_text '日報が作成されました'
+    assert_text @report.title
+    assert_text @report.content
   end
 
   test 'should update Report' do
     visit report_url(@report)
-    click_on 'Edit this report', match: :first
+    click_on 'この日報を編集'
 
-    fill_in 'Content', with: @report.content
-    fill_in 'Title', with: @report.title
-    fill_in 'User', with: @report.user_id
-    click_on 'Update Report'
+    fill_in 'report[title]', with: '新タイトル'
+    fill_in 'report[content]', with: '修正した。'
+    click_on '更新する'
 
-    assert_text 'Report was successfully updated'
-    click_on 'Back'
+    assert_text '日報が更新されました'
+    assert_text 'タイトル: 新タイトル'
+    assert_text '内容: 修正した。'
   end
 
   test 'should destroy Report' do
     visit report_url(@report)
-    click_on 'Destroy this report', match: :first
+    click_on 'この日報を削除', match: :first
 
-    assert_text 'Report was successfully destroyed'
+    assert_text '日報が削除されました'
+    assert_no_text 'タイトル: 新タイトル'
+    assert_no_text '内容: 修正した。'
   end
 end

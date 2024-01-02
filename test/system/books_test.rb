@@ -4,42 +4,53 @@ require 'application_system_test_case'
 
 class BooksTest < ApplicationSystemTestCase
   setup do
+    @user = users(:alice)
     @book = books(:one)
-  end
+    visit new_user_session_url
+    fill_in 'user_email', with: @user.email
+    fill_in 'user_password', with: 'password'
+    click_on 'ログイン'
 
-  test 'visiting the index' do
-    visit books_url
-    assert_selector 'h1', text: 'Books'
+    assert_text 'ログインしました'
   end
 
   test 'should create book' do
     visit books_url
-    click_on 'New book'
+    click_on '本の新規作成'
 
-    fill_in 'Memo', with: @book.memo
-    fill_in 'Title', with: @book.title
-    click_on 'Create Book'
+    fill_in 'book[title]', with: @book.title
+    fill_in 'book[memo]', with: @book.memo
+    fill_in 'book[author]', with: @book.author
+    click_on '登録する'
 
-    assert_text 'Book was successfully created'
-    click_on 'Back'
+    assert_text '本が作成されました'
+    assert_text @book.title
+    assert_text @book.memo
+    assert_text @book.author
   end
 
   test 'should update Book' do
     visit book_url(@book)
-    click_on 'Edit this book', match: :first
+    click_on 'この本を編集'
 
-    fill_in 'Memo', with: @book.memo
-    fill_in 'Title', with: @book.title
-    click_on 'Update Book'
+    fill_in 'book[title]', with: '新しいタイトル'
+    fill_in 'book[memo]', with: '新しい内容'
+    fill_in 'book[author]', with: '新しい著者'
+    click_on '更新する'
 
-    assert_text 'Book was successfully updated'
-    click_on 'Back'
+    assert_text '本が更新されました'
+    assert_text 'タイトル: 新しいタイトル'
+    assert_text 'メモ: 新しい内容'
+    assert_text '著者: 新しい著者'
   end
 
   test 'should destroy Book' do
     visit book_url(@book)
-    click_on 'Destroy this book', match: :first
+    click_on 'この本を削除', match: :first
 
-    assert_text 'Book was successfully destroyed'
+    assert_text '本が削除されました'
+    assert_no_text 'タイトル: 新しいタイトル'
+    assert_no_text 'メモ: 新しい内容'
+    assert_no_text '著者: 新しい著者'
   end
 end
